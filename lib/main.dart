@@ -1,8 +1,5 @@
-import 'package:counter/list_page.dart';
-import 'package:counter/old.dart';
 import 'package:counter/ListPageSampleTest.dart';
 import 'package:flutter/material.dart';
-import 'package:counter/test_color.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Multi_Counter',
+      home: const MyHomePage(title: 'Multi_Counter'),
     );
   }
 }
@@ -40,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
@@ -54,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: 100,
               child: TextField(
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                 ),
@@ -69,56 +63,76 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListPageSample(value: number),
-                ),
-              );
-            },
-            child: const Icon(Icons.navigate_next_sharp),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: MyFloatingActionButton(number: number),
+      bottomNavigationBar: MyBottomAppBar(),
+    );
+  }
+}
+
+class MyFloatingActionButton extends StatelessWidget {
+  const MyFloatingActionButton({
+    Key? key,
+    required this.number,
+  }) : super(key: key);
+
+  final int number;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      shape: CircleBorder(),
+      backgroundColor: Theme.of(context).primaryColorDark,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ListPageSampleTest(valueFromTextField: number),
           ),
-          SizedBox(
-            height: 30,
-          ),
-          // 確定ボタンありページ
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListPageSampleTest(valueFromTextField: number),
-                ),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(color: Colors.red),
-              child: const Icon(Icons.navigate_next_sharp),
+        );
+      },
+      child: const Icon(Icons.navigate_next_sharp),
+    );
+  }
+}
+
+class MyBottomAppBar extends StatelessWidget {
+  const MyBottomAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      color: Theme.of(context).primaryColor,
+      notchMargin: 6.0,
+      shape: AutomaticNotchedShape(
+        RoundedRectangleBorder(),
+        StadiumBorder(
+          side: BorderSide(),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        child: new Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.person_outline,
+                color: Colors.white,
+              ),
+              onPressed: () {},
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => testColor(),
-                ),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(color: Colors.red),
-              child: const Icon(Icons.navigate_next_sharp),
+            IconButton(
+              icon: Icon(
+                Icons.info_outline,
+                color: Colors.white,
+              ),
+              onPressed: () {},
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
