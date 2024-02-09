@@ -1,5 +1,8 @@
 import 'package:counter/ListPageSampleTest.dart';
+import 'package:counter/component/common_bottom_appbar.dart';
 import 'package:flutter/material.dart';
+
+import 'component/button/common_floating_action_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,76 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: MyFloatingActionButton(number: number),
-      bottomNavigationBar: MyBottomAppBar(),
-    );
-  }
-}
-
-class MyFloatingActionButton extends StatelessWidget {
-  const MyFloatingActionButton({
-    Key? key,
-    required this.number,
-  }) : super(key: key);
-
-  final int number;
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      shape: CircleBorder(),
-      backgroundColor: Theme.of(context).primaryColorDark,
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                ListPageSampleTest(valueFromTextField: number),
-          ),
-        );
-      },
-      child: const Icon(Icons.navigate_next_sharp),
-    );
-  }
-}
-
-class MyBottomAppBar extends StatelessWidget {
-  const MyBottomAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Theme.of(context).primaryColor,
-      notchMargin: 6.0,
-      shape: AutomaticNotchedShape(
-        RoundedRectangleBorder(),
-        StadiumBorder(
-          side: BorderSide(),
-        ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.person_outline,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.info_outline,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
+      floatingActionButton: CommonFloatingActionButton(number: number),
+      bottomNavigationBar: CommonBottomAppBar(),
     );
   }
 }
