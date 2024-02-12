@@ -1,4 +1,4 @@
-# counter
+# Mulit_Counter
 
 Multi_Counter
 カウンターアプリの拡張版
