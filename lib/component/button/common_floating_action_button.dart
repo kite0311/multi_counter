@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../ListPageSampleTest.dart';
-
 class CommonFloatingActionButton extends StatelessWidget {
   const CommonFloatingActionButton({
     Key? key,
-    required this.number,
+    required this.onPressed,
   }) : super(key: key);
 
-  final int number;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      shape: CircleBorder(),
-      backgroundColor: Theme.of(context).primaryColorDark,
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                ListPageSampleTest(valueFromTextField: number),
-          ),
-        );
-      },
-      child: const Icon(Icons.navigate_next_sharp),
+    return SizedBox(
+      height: 100,
+      width: 100,
+      child: FloatingActionButton(
+        shape: CircleBorder(),
+        backgroundColor: Theme.of(context).primaryColorDark,
+        onPressed: onPressed,
+        child: const Icon(Icons.add_circle_outline),
+      ),
     );
   }
 }

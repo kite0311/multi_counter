@@ -1,5 +1,5 @@
-import 'package:counter/ListPageSampleTest.dart';
-import 'package:counter/component/common_bottom_appbar.dart';
+import 'package:counter/component/appBar/common_bottom_appbar.dart';
+import 'package:counter/component/card_list/common_card_list.dart';
 import 'package:flutter/material.dart';
 
 import 'component/button/common_floating_action_button.dart';
@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int number = 0;
+  List<String> itemList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -44,30 +45,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              '最初のページ',
-            ),
-            SizedBox(
-              width: 100,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  setState(
-                    () {
-                      number = int.tryParse(value) ?? 0;
-                    },
-                  );
-                },
+            Expanded(
+              child: CommonCardList(
+                valueFromItemList: itemList.length,
               ),
             ),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: CommonFloatingActionButton(number: number),
+      floatingActionButton: CommonFloatingActionButton(
+        onPressed: () {
+          setState(() {
+            itemList.add('Item ${itemList.length + 1}');
+          });
+        },
+      ),
       bottomNavigationBar: CommonBottomAppBar(),
     );
   }
