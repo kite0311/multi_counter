@@ -117,8 +117,6 @@ class _CommonCardListState extends State<CommonCardList> {
                         children: [
                           // 編集確定ボタン
                           Container(
-                            // TODO テスト用のカラーを設定してるため後で編集
-                            color: Colors.red,
                             child: ElevatedButton(
                               onPressed: () {},
                               child: Text('確定'),
