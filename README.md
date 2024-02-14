@@ -4,8 +4,8 @@ Multi_Counter
 カウンターアプリの拡張版
 
 使用パッケージ：
-## flutter_colorpicker 1.0.3
-## shared_preferences 2.2.2
+flutter_colorpicker 1.0.3
+shared_preferences 2.2.2
 
 ## Getting Started
 
