@@ -1,5 +1,6 @@
 import 'package:counter/component/appBar/common_bottom_appbar.dart';
 import 'package:counter/component/card_list/common_card_list.dart';
+import 'package:counter/start.dart';
 import 'package:flutter/material.dart';
 
 import 'component/button/common_floating_action_button.dart';
@@ -45,6 +46,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            //TODO 初期画面を修正するため一時的に設定している
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => StartPage()));
+                },
+                child: Text('test')),
             Expanded(
               child: CommonCardList(
                 valueFromItemList: itemList.length,
@@ -53,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: CommonFloatingActionButton(
         onPressed: () {
           setState(() {
@@ -61,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
       ),
-      bottomNavigationBar: CommonBottomAppBar(),
+      bottomNavigationBar: CommonBottomAppBar(itemList: itemList),
     );
   }
 }

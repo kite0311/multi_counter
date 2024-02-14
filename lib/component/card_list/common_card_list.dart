@@ -1,3 +1,5 @@
+import 'package:counter/component/button/colot_picker_button.dart';
+import 'package:counter/component/textfield/list_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -31,8 +33,17 @@ class _CommonCardListState extends State<CommonCardList> {
     }
   }
 
+  void onColorChanged(Color color, int index) {
+    setState(() {
+      cardColors[index] = color;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // スイッチの初期値
+    bool isSwitched = false;
+
     return Container(
       // カードリストのUI
       child: ListView.builder(
@@ -48,79 +59,63 @@ class _CommonCardListState extends State<CommonCardList> {
                 child: Center(
                   child: Row(
                     children: [
+                      // Color_Picker_Button
+                      Expanded(
+                        child: ColorPickerButton(
+                            cardColors: cardColors,
+                            index: index,
+                            onColorChangedCallback: onColorChanged),
+                      ),
+                      // テーブル名
                       Expanded(
                         child: Container(
                           child: Text("リスト"),
                         ),
                       ),
-                      // Color_Picker_Button
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Choose a Color!!'),
-                                  content: SingleChildScrollView(
-                                    child: BlockPicker(
-                                      pickerColor: cardColors[index],
-                                      //default color
-                                      onColorChanged: (Color color) {
-                                        //on color picked
-                                        setState(
-                                          () {
-                                            cardColors[index] = color;
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    ElevatedButton(
-                                      child: const Text('DONE'),
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(); //dismiss the color picker
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Icon(Icons.color_lens),
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(40, 40),
-                            shape: CircleBorder(),
-                            side: BorderSide(color: Colors.white38, width: 3),
-                            backgroundColor: Colors.tealAccent,
-                            foregroundColor: Colors.white,
-                            shadowColor: Colors.grey,
-                            elevation: 4,
-                          ),
-                        ),
-                      ),
-                      //入力フォーム
+                      // 入力フォーム
                       Expanded(
                         child: Container(
-                          child: TextField(
-                              keyboardType: TextInputType.number,
-                              controller: textEditingController,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {}),
+                          child: ListTextField(
+                              textEditingController: textEditingController),
                         ),
                       ),
+                      // プラスボタン
                       Row(
                         children: [
-                          // 編集確定ボタン
                           Container(
-                            child: ElevatedButton(
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.black,
+                              ),
+                              iconSize: 26,
                               onPressed: () {},
-                              child: Text('確定'),
                             ),
+                          ),
+                          // マイナスボタン
+                          Container(
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.remove_circle_outline,
+                                color: Colors.black,
+                              ),
+                              iconSize: 26,
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        children: <Widget>[
+                          // 入力値確定スイッチ
+                          Switch(
+                            value: isSwitched,
+                            onChanged: (value) {
+                              setState(() {
+                                isSwitched = value;
+                              });
+                            },
                           ),
                         ],
                       ),
