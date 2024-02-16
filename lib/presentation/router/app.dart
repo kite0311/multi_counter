@@ -1,4 +1,4 @@
-import 'package:counter/presentation/pages/initial.dart';
+import 'package:counter/presentation/pages/initialization.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -8,7 +8,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Multi_Counter',
-      home: InitialPage(),
+      home: InitializationPage(),
     );
   }
 }
