@@ -14,7 +14,7 @@ class AddListButton extends StatelessWidget {
       height: 78,
       width: 78,
       child: FloatingActionButton(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         backgroundColor: Colors.blue,
         onPressed: onPressed,
         child: const Icon(Icons.add_circle_outline),
