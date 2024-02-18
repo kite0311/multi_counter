@@ -29,16 +29,16 @@ class ColorPickerButton extends StatelessWidget {
           },
         );
       },
-      child: Icon(Icons.color_lens),
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(40, 40),
-        shape: CircleBorder(),
-        side: BorderSide(color: Colors.white38, width: 3),
+        minimumSize: const Size(40, 40),
+        shape: const CircleBorder(),
+        side: const BorderSide(color: Colors.white38, width: 3),
         backgroundColor: Colors.tealAccent,
         foregroundColor: Colors.white,
         shadowColor: Colors.grey,
         elevation: 4,
       ),
+      child: const Icon(Icons.color_lens),
     );
   }
 }
@@ -59,7 +59,7 @@ class ColorPickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Choose a Color!!'),
+      title: const Text('Choose a Color!!'),
       content: SingleChildScrollView(
         child: BlockPicker(
           pickerColor: cardColors[index],

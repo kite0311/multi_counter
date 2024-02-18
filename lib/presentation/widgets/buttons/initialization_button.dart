@@ -11,11 +11,11 @@ class InitializationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => onPressed(context),
-      child: Text(ButtonText),
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
         padding: const EdgeInsets.all(24),
       ),
+      child: Text(ButtonText),
     );
   }
 }
