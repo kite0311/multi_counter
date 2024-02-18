@@ -43,89 +43,86 @@ class _CommonCardListState extends State<CommonCardList> {
     // スイッチの初期値
     bool isSwitched = false;
 
-    return Container(
-      // カードリストのUI
-      child: ListView.builder(
-        itemCount: value,
-        itemBuilder: (context, index) {
-          TextEditingController textEditingController = TextEditingController();
-          return Center(
-            child: Card(
-              color: cardColors[index],
-              child: SizedBox(
-                width: double.infinity,
-                height: 74,
-                child: Center(
-                  child: Row(
-                    children: [
-                      // Color_Picker_Button
-                      Expanded(
-                        child: ColorPickerButton(
-                            cardColors: cardColors,
-                            index: index,
-                            onColorChangedCallback: onColorChanged),
+    return ListView.builder(
+      itemCount: value,
+      itemBuilder: (context, index) {
+        TextEditingController textEditingController = TextEditingController();
+        return Center(
+          child: Card(
+            color: cardColors[index],
+            child: SizedBox(
+              width: double.infinity,
+              height: 74,
+              child: Center(
+                child: Row(
+                  children: [
+                    // Color_Picker_Button
+                    Expanded(
+                      child: ColorPickerButton(
+                          cardColors: cardColors,
+                          index: index,
+                          onColorChangedCallback: onColorChanged),
+                    ),
+                    // テーブル名
+                    Expanded(
+                      child: Container(
+                        child: Text("リスト"),
                       ),
-                      // テーブル名
-                      Expanded(
-                        child: Container(
-                          child: Text("リスト"),
-                        ),
+                    ),
+                    // 入力フォーム
+                    Expanded(
+                      child: Container(
+                        child: ListTextField(
+                            textEditingController: textEditingController),
                       ),
-                      // 入力フォーム
-                      Expanded(
-                        child: Container(
-                          child: ListTextField(
-                              textEditingController: textEditingController),
-                        ),
-                      ),
-                      // プラスボタン
-                      Row(
-                        children: [
-                          Container(
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.add_circle_outline,
-                                color: Colors.black,
-                              ),
-                              iconSize: 26,
-                              onPressed: () {},
+                    ),
+                    // プラスボタン
+                    Row(
+                      children: [
+                        Container(
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.add_circle_outline,
+                              color: Colors.black,
                             ),
+                            iconSize: 26,
+                            onPressed: () {},
                           ),
-                          // マイナスボタン
-                          Container(
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.remove_circle_outline,
-                                color: Colors.black,
-                              ),
-                              iconSize: 26,
-                              onPressed: () {},
+                        ),
+                        // マイナスボタン
+                        Container(
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.remove_circle_outline,
+                              color: Colors.black,
                             ),
+                            iconSize: 26,
+                            onPressed: () {},
                           ),
-                        ],
-                      ),
-
-                      Row(
-                        children: <Widget>[
-                          // 入力値確定スイッチ
-                          Switch(
-                            value: isSwitched,
-                            onChanged: (value) {
-                              setState(() {
-                                isSwitched = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+    
+                    Row(
+                      children: <Widget>[
+                        // 入力値確定スイッチ
+                        Switch(
+                          value: isSwitched,
+                          onChanged: (value) {
+                            setState(() {
+                              isSwitched = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
