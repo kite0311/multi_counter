@@ -17,8 +17,8 @@ class InitializationPage extends StatelessWidget {
           children: [
             // リストを初期化するボタン
             Container(
-              width: CommonSize.c200,
-              height: CommonSize.c200,
+              width: CmnSize.c200,
+              height: CmnSize.c200,
               child: const InitializationButton(
                 onPressed: onPressed,
                 ButtonText: ButtonText.tapToStart,

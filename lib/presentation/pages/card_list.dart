@@ -1,6 +1,6 @@
 import 'package:counter/presentation/widgets/buttons/add_list_button.dart';
-import 'package:counter/presentation/widgets/card_list/common_card_list.dart';
-import 'package:counter/presentation/widgets/common_bottom_appbar.dart';
+import 'package:counter/presentation/widgets/card_list/cmn_card_list.dart';
+import 'package:counter/presentation/widgets/cmn_bottom_appbar.dart';
 import 'package:counter/presentation/widgets/total_item_count.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class _CardListState extends State<CardListPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: CommonCardList(
+              child: CmnCardList(
                 valueFromItemList: itemList.length,
               ),
             ),
@@ -55,7 +55,7 @@ class _CardListState extends State<CardListPage> {
           });
         },
       ),
-      bottomNavigationBar: CommonBottomAppBar(itemList: itemList),
+      bottomNavigationBar: CmnBottomAppBar(itemList: itemList),
     );
   }
 }

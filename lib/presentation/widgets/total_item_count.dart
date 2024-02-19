@@ -9,13 +9,13 @@ class TotalItemCountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: CommonSize.p16),
+      padding: const EdgeInsets.symmetric(horizontal: CmnSize.p16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
             'Total: Items: $totalItemCount',
-            style: const TextStyle(fontSize: CommonSize.f16),
+            style: const TextStyle(fontSize: CmnSize.f16),
           ),
         ],
       ),

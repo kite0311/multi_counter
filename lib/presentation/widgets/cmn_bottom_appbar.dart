@@ -2,8 +2,8 @@ import 'package:counter/presentation/widgets/buttons/Iconbutton/remove_list_butt
 import 'package:counter/presentation/widgets/buttons/Iconbutton/save_list_button.dart';
 import 'package:flutter/material.dart';
 
-class CommonBottomAppBar extends StatelessWidget {
-  const CommonBottomAppBar({super.key, required this.itemList});
+class CmnBottomAppBar extends StatelessWidget {
+  const CmnBottomAppBar({super.key, required this.itemList});
 
   final List<String> itemList;
 

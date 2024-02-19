@@ -1,30 +1,32 @@
 import 'package:counter/presentation/widgets/buttons/color_picker_button.dart';
+import 'package:counter/presentation/widgets/buttons/counter_button/cmn_dec_button.dart';
+import 'package:counter/presentation/widgets/buttons/counter_button/cmn_incr_button.dart';
 import 'package:counter/presentation/widgets/textfield/list_text_field.dart';
 import 'package:flutter/material.dart';
 
-class CommonCardList extends StatefulWidget {
-  const CommonCardList({Key? key, required this.valueFromItemList})
+class CmnCardList extends StatefulWidget {
+  const CmnCardList({Key? key, required this.valueFromItemList})
       : super(key: key);
   final int valueFromItemList;
 
   @override
-  State<CommonCardList> createState() =>
-      _CommonCardListState(value: valueFromItemList);
+  State<CmnCardList> createState() =>
+      _CmnCardListState(value: valueFromItemList);
 }
 
-class _CommonCardListState extends State<CommonCardList> {
+class _CmnCardListState extends State<CmnCardList> {
   int value;
 
   // リスト毎にカラーを持つためのリスト
   List<Color> cardColors = [];
 
-  _CommonCardListState({required this.value}) {
+  _CmnCardListState({required this.value}) {
     // リストの初期化
     cardColors = List.generate(value, (index) => Colors.white);
   }
 
   @override
-  void didUpdateWidget(covariant CommonCardList oldWidget) {
+  void didUpdateWidget(covariant CmnCardList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.valueFromItemList != widget.valueFromItemList) {
       value = widget.valueFromItemList;
@@ -76,33 +78,12 @@ class _CommonCardListState extends State<CommonCardList> {
                             textEditingController: textEditingController),
                       ),
                     ),
-                    // プラスボタン
-                    Row(
+                    const Row(
                       children: [
-                        Container(
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.add_circle_outline,
-                              color: Colors.black,
-                            ),
-                            iconSize: 26,
-                            onPressed: () {},
-                          ),
-                        ),
-                        // マイナスボタン
-                        Container(
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.remove_circle_outline,
-                              color: Colors.black,
-                            ),
-                            iconSize: 26,
-                            onPressed: () {},
-                          ),
-                        ),
+                        CmnIncrButton(),
+                        CmndecButton(),
                       ],
                     ),
-    
                     Row(
                       children: <Widget>[
                         // 入力値確定スイッチ
