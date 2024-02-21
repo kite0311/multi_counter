@@ -24,4 +24,23 @@ class CmnSize {
   static const i40 = 40.0;
   static const i48 = 48.0;
   
+  /// h = height
+  static const h24 = 24.0;
+  static const h32 = 32.0;
+  static const h40 = 40.0;
+  static const h48 = 48.0;
+  static const h56 = 56.0;
+  static const h64 = 64.0;
+  // カードリストの高さ
+  static const h74 = 74.0;
+
+  /// w = width
+  static const w24 = 24.0;
+  static const w32 = 32.0;
+  static const w40 = 40.0;
+  static const w48 = 48.0;
+  static const w56 = 56.0;
+  static const w64 = 64.0;
+  static const w74 = 74.0;
+
 }
