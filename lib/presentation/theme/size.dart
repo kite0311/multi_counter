@@ -16,6 +16,8 @@ class CmnSize {
   static const p4 = 4.0;
   static const p8 = 8.0;
   static const p16 = 16.0;
+  static const p24 = 24.0;
+  static const p32 = 32.0;
 
   /// i = iconSize
   static const i24 = 24.0;
