@@ -10,7 +10,7 @@ class CmnIncrButton extends StatelessWidget {
     return IconButton(
       icon: const Icon(
         Icons.add_circle_outline,
-        color: CmnColor.black,
+        color: CmnColor.darkgrey,
       ),
       iconSize: CmnSize.i26,
       onPressed: () {

@@ -1,11 +1,11 @@
-import 'package:counter/presentation/widgets/buttons/Iconbutton/remove_list_button.dart';
+import 'package:counter/domain/types/card_list.dart';
 import 'package:counter/presentation/widgets/buttons/Iconbutton/save_list_button.dart';
 import 'package:flutter/material.dart';
 
 class CmnBottomAppBar extends StatelessWidget {
   const CmnBottomAppBar({super.key, required this.itemList});
 
-  final List<String> itemList;
+  final List<CardList> itemList;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,6 @@ class CmnBottomAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             SaveListButton(itemList: itemList),
-            RemoveListButton(itemList: itemList,),
           ],
         ),
       ),

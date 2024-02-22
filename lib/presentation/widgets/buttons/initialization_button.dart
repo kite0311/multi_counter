@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class InitializationButton extends StatelessWidget {
   const InitializationButton(
-      {super.key, required this.onPressed, required this.ButtonText});
+      {super.key, required this.onPressed, required this.buttonText});
 
   final Function(BuildContext) onPressed;
-  final String ButtonText;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class InitializationButton extends StatelessWidget {
         shape: const CircleBorder(),
         padding: const EdgeInsets.all(24),
       ),
-      child: Text(ButtonText),
+      child: Text(buttonText),
     );
   }
 }
