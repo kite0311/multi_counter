@@ -24,6 +24,9 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  ///TODO 仮の値
+  int result = 0;
+
   /// リストの総数をカウントして保持する変数
   //　TODO: ローカルDBで管理したいため後で削除予定
   late int listLengthCounter;
@@ -40,6 +43,7 @@ class _ListScreenState extends State<ListScreen> {
         id: idGenerator.generate(),
         listname: 'item$index',
         listcolor: CmnColor.white,
+        initialValue: 0,
         listSettingVal: 0);
   }
 
@@ -69,11 +73,26 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
+  int caluculateResult() {
+    int total = 0;
+    for (var item in itemlist) {
+      total += item.listSettingVal;
+    }
+    return total;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List Screen'),
+        title: Text(
+          'Result: $result',
+          style: TextStyle(
+            fontSize: CmnSize.f20,
+            fontWeight: FontWeight.bold,
+            color: CmnColor.red,
+          ),
+        ),
       ),
       body: ListView.builder(
         itemCount: itemlist.length,
@@ -123,35 +142,78 @@ class _ListScreenState extends State<ListScreen> {
                       onColorChangedCallback: updateColor,
                     ),
                     Expanded(
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Set Value',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(CmnSize.p8),
+                      child: itemlist[index].isSwitched
+                          ? Container(
+                              child: Center(
+                                child: Text(
+                                  itemlist[index].initialValue.toString(),
+                                  style: TextStyle(
+                                    fontSize: CmnSize.f24,
+                                    fontWeight: FontWeight.bold,
+                                    color: CmnColor.black,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : TextField(
+                              decoration: const InputDecoration(
+                                labelText: 'Set Value',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(CmnSize.p8),
+                                  ),
+                                ),
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(7),
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  itemlist[index].initialValue =
+                                      int.parse(value);
+                                  itemlist[index].listSettingVal =
+                                      int.parse(value);
+                                });
+                              },
                             ),
-                          ),
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(7),
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                      ),
                     ),
                     // カウンターボタン
-                    const Row(
+                    Row(
                       children: [
-                        CmnIncrButton(),
-                        CmnDecButton(),
+                        CmnIncrButton(
+                          onIncrement: itemlist[index].isSwitched
+                              ? () {
+                                  setState(() {
+                                    itemlist[index].listSettingVal +=
+                                        itemlist[index].initialValue;
+                                    result = caluculateResult();
+                                  });
+                                }
+                              : () {},
+                        ),
+                        CmnDecButton(
+                          onDecrement: itemlist[index].isSwitched
+                              ? () {
+                                  setState(() {
+                                    itemlist[index].listSettingVal -=
+                                        itemlist[index].initialValue;
+                                    result = caluculateResult();
+                                  });
+                                }
+                              : () {},
+                        ),
                       ],
                     ),
                   ],
                 ),
                 // itemlist確定スイッチボタン
                 trailing: Switch(
-                  value: false,
-                  onChanged: (value) => print(value),
+                  value: itemlist[index].isSwitched,
+                  onChanged: (value) => setState(() {
+                    itemlist[index].isSwitched = value;
+                  }),
                 ),
               ),
             ),

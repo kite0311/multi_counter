@@ -3,8 +3,13 @@ import 'package:counter/presentation/theme/size.dart';
 import 'package:flutter/material.dart';
 
 class CmnDecButton extends StatelessWidget {
-  const CmnDecButton({super.key});
+  const CmnDecButton({
+    super.key,
+    required this.onDecrement,
+  });
 
+  final VoidCallback onDecrement;
+  
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -13,9 +18,7 @@ class CmnDecButton extends StatelessWidget {
         color: CmnColor.darkgrey,
       ),
       iconSize: CmnSize.i26,
-      onPressed: () {
-        //TODO 減少処理
-      },
+      onPressed: onDecrement,
     );
   }
 }
