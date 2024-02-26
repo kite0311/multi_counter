@@ -73,6 +73,7 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
+  /// itemlistの合計値を計算
   int caluculateResult() {
     int total = 0;
     for (var item in itemlist) {
