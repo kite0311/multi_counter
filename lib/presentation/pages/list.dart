@@ -43,8 +43,10 @@ class _ListScreenState extends State<ListScreen> {
         id: idGenerator.generate(),
         listname: 'item$index',
         listcolor: CmnColor.white,
+        buttonClicks: 0,
         initialValue: 0,
-        listSettingVal: 0);
+        listSettingVal: 0, 
+        );
   }
 
   /// 初期化時に渡された値をitemListに代入しリストを初期化 5つのリストを生成
@@ -189,17 +191,25 @@ class _ListScreenState extends State<ListScreen> {
                                   setState(() {
                                     itemlist[index].listSettingVal +=
                                         itemlist[index].initialValue;
+                                    itemlist[index].buttonClicks++;
                                     result = caluculateResult();
                                   });
                                 }
                               : () {},
                         ),
+                        Text(itemlist[index].buttonClicks.toString(),
+                            style: TextStyle(
+                                fontSize: CmnSize.f24,
+                                fontWeight: FontWeight.bold,
+                                color: CmnColor.black)),
+                        //TODO valueが0の場合にボタンが押せなくなる制御をする
                         CmnDecButton(
                           onDecrement: itemlist[index].isSwitched
                               ? () {
                                   setState(() {
                                     itemlist[index].listSettingVal -=
                                         itemlist[index].initialValue;
+                                    itemlist[index].buttonClicks--;
                                     result = caluculateResult();
                                   });
                                 }
