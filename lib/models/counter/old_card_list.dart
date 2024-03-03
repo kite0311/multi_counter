@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+
 class CardList {
   String id;
   String listname;
@@ -9,15 +11,15 @@ class CardList {
   int listSettingVal;
   bool isSwitched;
 
-int get buttonClicks => _buttonClicks;
+  int get buttonClicks => _buttonClicks;
 
-set buttonClicks(int value) {
-  if(value > 0){
-    _buttonClicks = value;
-  } else{
-    _buttonClicks = 0;
+  set buttonClicks(int value) {
+    if (value > 0) {
+      _buttonClicks = value;
+    } else {
+      _buttonClicks = 0;
+    }
   }
-}
 
   CardList({
     required this.id,
@@ -28,5 +30,4 @@ set buttonClicks(int value) {
     required this.listSettingVal,
     this.isSwitched = false,
   }) : _buttonClicks = buttonClicks > 0 ? buttonClicks : 0;
-  
 }

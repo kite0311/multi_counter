@@ -1,4 +1,4 @@
-import 'package:counter/presentation/theme/size.dart';
+import 'package:counter/constant/theme/size.dart';
 import 'package:flutter/material.dart';
 
 class TotalItemCountWidget extends StatelessWidget {

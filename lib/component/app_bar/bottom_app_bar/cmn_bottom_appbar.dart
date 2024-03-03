@@ -1,11 +1,11 @@
-import 'package:counter/domain/types/card_list.dart';
-import 'package:counter/presentation/widgets/buttons/Iconbutton/save_list_button.dart';
+import 'package:counter/component/buttons/save_list_button.dart';
+import 'package:counter/models/counter/counter_list.dart';
 import 'package:flutter/material.dart';
 
 class CmnBottomAppBar extends StatelessWidget {
   const CmnBottomAppBar({super.key, required this.itemList});
 
-  final List<CardList> itemList;
+  final List<CounterList> itemList;
 
   @override
   Widget build(BuildContext context) {

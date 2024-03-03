@@ -1,17 +1,19 @@
-import 'package:counter/domain/types/card_list.dart';
-import 'package:counter/domain/features/generate_id.dart';
-import 'package:counter/presentation/theme/colors.dart';
-import 'package:counter/presentation/theme/size.dart';
-import 'package:counter/presentation/widgets/buttons/add_list_button.dart';
-import 'package:counter/presentation/widgets/buttons/color_picker_button.dart';
-import 'package:counter/presentation/widgets/buttons/counter_button/cmn_dec_button.dart';
-import 'package:counter/presentation/widgets/buttons/counter_button/cmn_incr_button.dart';
-import 'package:counter/presentation/widgets/cmn_bottom_appbar.dart';
+import 'dart:math';
+
+import 'package:counter/component/buttons/counter_button/cmn_dec_button.dart';
+import 'package:counter/component/buttons/counter_button/cmn_incr_button.dart';
+import 'package:counter/models/counter/counter_list.dart';
+import 'package:counter/utils/generate_id.dart';
+import 'package:counter/constant/theme/colors.dart';
+import 'package:counter/constant/theme/size.dart';
+import 'package:counter/component/buttons/add_list_button.dart';
+import 'package:counter/component/buttons/color_picker_button.dart';
+import 'package:counter/component/app_bar/bottom_app_bar/cmn_bottom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ListScreen extends StatefulWidget {
-  const ListScreen({
+class CounterListPage extends StatefulWidget {
+  const CounterListPage({
     super.key,
     required this.initializationValue,
   });
@@ -20,10 +22,10 @@ class ListScreen extends StatefulWidget {
   final int initializationValue;
 
   @override
-  State<ListScreen> createState() => _ListScreenState();
+  State<CounterListPage> createState() => _CounterListPageState();
 }
 
-class _ListScreenState extends State<ListScreen> {
+class _CounterListPageState extends State<CounterListPage> {
   ///TODO 仮の値
   int result = 0;
 
@@ -32,21 +34,21 @@ class _ListScreenState extends State<ListScreen> {
   late int listLengthCounter;
 
   /// アイテムリスト
-  List<CardList> itemlist = [];
+  List<CounterList> itemlist = [];
 
   /// id生成用インスタンス
   var idGenerator = RandomIdGenerator();
 
   /// アイテムリスト生成
-  CardList createCardList(int index) {
-    return CardList(
-        id: idGenerator.generate(),
-        listname: 'item$index',
-        listcolor: CmnColor.white,
-        buttonClicks: 0,
-        initialValue: 0,
-        listSettingVal: 0, 
-        );
+  CounterList createCounterList(int index) {
+    return CounterList(
+      id: idGenerator.generate(),
+      name: 'item$index',
+      color: CmnColor.white,
+      buttonClicks: 0,
+      initialValue: 0,
+      settingVal: 0,
+    );
   }
 
   /// 初期化時に渡された値をitemListに代入しリストを初期化 5つのリストを生成
@@ -55,8 +57,8 @@ class _ListScreenState extends State<ListScreen> {
     super.initState();
     listLengthCounter = widget.initializationValue;
     print(listLengthCounter);
-    itemlist = List<CardList>.generate(
-        widget.initializationValue, (index) => createCardList(index + 1));
+    itemlist = List<CounterList>.generate(
+        widget.initializationValue, (index) => createCounterList(index + 1));
   }
 
   /// リストを追加
@@ -64,22 +66,23 @@ class _ListScreenState extends State<ListScreen> {
     setState(() {
       listLengthCounter++;
       print(listLengthCounter);
-      itemlist.add(createCardList(listLengthCounter));
+      itemlist.add(createCounterList(listLengthCounter));
     });
   }
 
   /// itemlistの色を更新
   void updateColor(Color color, int index) {
     setState(() {
-      itemlist[index].listcolor = color;
+      final currentItem = itemlist[index];
+      itemlist[index] = currentItem.copyWith(color: color);
     });
   }
 
   /// itemlistの合計値を計算
-  int caluculateResult() {
+  int calculateResult() {
     int total = 0;
     for (var item in itemlist) {
-      total += item.listSettingVal;
+      total += item.settingVal;
     }
     return total;
   }
@@ -101,6 +104,7 @@ class _ListScreenState extends State<ListScreen> {
         itemCount: itemlist.length,
         itemBuilder: (context, index) {
           return Dismissible(
+            key: ValueKey(itemlist[index].id),
             // 左スワイプ時の背景UIの設定
             background: Container(
               color: CmnColor.red,
@@ -120,6 +124,7 @@ class _ListScreenState extends State<ListScreen> {
             // 左スワイプ時にスナックバーを表示
             onDismissed: (direction) {
               if (direction == DismissDirection.endToStart) {
+                // リストアイテム削除のロジック
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('DELETE ITEM!'),
@@ -131,12 +136,11 @@ class _ListScreenState extends State<ListScreen> {
               }
             },
             direction: DismissDirection.endToStart,
-            key: ValueKey<CardList>(itemlist[index]),
             child: Card(
-              color: itemlist[index].listcolor,
+              color: itemlist[index].color,
               child: ListTile(
                 // リスト名
-                title: Text(itemlist[index].listname),
+                title: Text(itemlist[index].name),
                 // リストの設定
                 subtitle: Row(
                   children: [
@@ -174,10 +178,11 @@ class _ListScreenState extends State<ListScreen> {
                               ],
                               onChanged: (value) {
                                 setState(() {
-                                  itemlist[index].initialValue =
-                                      int.parse(value);
-                                  itemlist[index].listSettingVal =
-                                      int.parse(value);
+                                  final currentItem = itemlist[index];
+                                  itemlist[index] = currentItem.copyWith(
+                                    initialValue: int.parse(value),
+                                    settingVal: int.parse(value),
+                                  );
                                 });
                               },
                             ),
@@ -186,13 +191,28 @@ class _ListScreenState extends State<ListScreen> {
                     Row(
                       children: [
                         CmnIncrButton(
-                          onIncrement: itemlist[index].isSwitched
+                          onIncrement: itemlist[index].isSwitched &&
+                                  itemlist[index].settingVal > 0
                               ? () {
                                   setState(() {
-                                    itemlist[index].listSettingVal +=
-                                        itemlist[index].initialValue;
-                                    itemlist[index].buttonClicks++;
-                                    result = caluculateResult();
+                                    final currentItem = itemlist[index];
+                                    int newValue;
+                                    if (currentItem.buttonClicks == 0) {
+                                      // ボタンクリックが初めての場合は、settingValに加算せずに初期値を設定する
+                                      newValue = currentItem.initialValue;
+                                    } else {
+                                      // それ以外の場合は、一回前のsettingValに加算する
+                                      newValue = currentItem.settingVal +
+                                          currentItem.initialValue;
+                                    }
+                                    // 更新された値でアイテムをリストに再代入する
+                                    itemlist[index] = currentItem.copyWith(
+                                        settingVal: newValue,
+                                        buttonClicks:
+                                            currentItem.buttonClicks + 1);
+
+                                    // 結果の計算
+                                    result = calculateResult();
                                   });
                                 }
                               : () {},
@@ -204,13 +224,31 @@ class _ListScreenState extends State<ListScreen> {
                                 color: CmnColor.black)),
                         //TODO valueが0の場合にボタンが押せなくなる制御をする
                         CmnDecButton(
-                          onDecrement: itemlist[index].isSwitched
+                          onDecrement: itemlist[index].isSwitched &&
+                                  itemlist[index].settingVal > 0
                               ? () {
                                   setState(() {
-                                    itemlist[index].listSettingVal -=
-                                        itemlist[index].initialValue;
-                                    itemlist[index].buttonClicks--;
-                                    result = caluculateResult();
+                                    final currentItem = itemlist[index];
+                                    // buttonClicksが0より大きいことを確認
+                                    if (currentItem.buttonClicks > 0) {
+                                      int newButtonClicks =
+                                          currentItem.buttonClicks - 1;
+                                      int newSettingVal =
+                                          currentItem.settingVal -
+                                              currentItem.initialValue;
+
+                                      // 設定する値が0以下にならないように、以下でさらにチェックする
+                                      newSettingVal = max(newSettingVal,
+                                          0); // settingValが0未満にならないように
+                                      newButtonClicks = max(newButtonClicks,
+                                          0); // buttonClicksが0未満にならないように
+
+                                      itemlist[index] = currentItem.copyWith(
+                                        settingVal: newSettingVal,
+                                        buttonClicks: newButtonClicks,
+                                      );
+                                    }
+                                    result = calculateResult();
                                   });
                                 }
                               : () {},
@@ -223,7 +261,8 @@ class _ListScreenState extends State<ListScreen> {
                 trailing: Switch(
                   value: itemlist[index].isSwitched,
                   onChanged: (value) => setState(() {
-                    itemlist[index].isSwitched = value;
+                    final currentValue = itemlist[index];
+                    itemlist[index] = currentValue.copyWith(isSwitched: value);
                   }),
                 ),
               ),

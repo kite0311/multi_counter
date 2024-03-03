@@ -1,4 +1,4 @@
-import 'package:counter/presentation/theme/colors.dart';
+import 'package:counter/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 

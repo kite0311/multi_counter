@@ -1,8 +1,8 @@
-import 'package:counter/presentation/constants/button_text_constants.dart';
-import 'package:counter/presentation/constants/list_constants.dart';
-import 'package:counter/presentation/pages/list.dart';
-import 'package:counter/presentation/theme/size.dart';
-import 'package:counter/presentation/widgets/buttons/initialization_button.dart';
+import 'package:counter/constant/button_text_constants.dart';
+import 'package:counter/constant/list_constants.dart';
+import 'package:counter/views/pages/counter_list_page.dart';
+import 'package:counter/constant/theme/size.dart';
+import 'package:counter/component/buttons/initialization_button.dart';
 import 'package:flutter/material.dart';
 
 class InitializationPage extends StatelessWidget {
@@ -35,7 +35,7 @@ class InitializationPage extends StatelessWidget {
 void _navigateToListScreen(BuildContext context) {
   Navigator.of(context).pushReplacement(
     MaterialPageRoute(
-      builder: (context) => const ListScreen(
+      builder: (context) => const CounterListPage(
         initializationValue: ListConstants.initializationValue,
       ),
     ),

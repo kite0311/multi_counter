@@ -1,10 +1,11 @@
-import 'package:counter/domain/types/card_list.dart';
+
+import 'package:counter/models/counter/counter_list.dart';
 import 'package:flutter/material.dart';
 
 class SaveListButton extends StatelessWidget {
   const SaveListButton({super.key, required this.itemList});
 
-  final List<CardList> itemList;
+  final List<CounterList> itemList;
 
   @override
   Widget build(BuildContext context) {

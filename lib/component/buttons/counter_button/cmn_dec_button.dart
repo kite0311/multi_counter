@@ -1,5 +1,5 @@
-import 'package:counter/presentation/theme/colors.dart';
-import 'package:counter/presentation/theme/size.dart';
+import 'package:counter/constant/theme/colors.dart';
+import 'package:counter/constant/theme/size.dart';
 import 'package:flutter/material.dart';
 
 class CmnDecButton extends StatelessWidget {
@@ -9,7 +9,7 @@ class CmnDecButton extends StatelessWidget {
   });
 
   final VoidCallback onDecrement;
-  
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
