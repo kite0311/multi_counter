@@ -78,6 +78,63 @@ class _CounterListPageState extends State<CounterListPage> {
     });
   }
 
+  /// プラスカウンターボタンの処理
+  void handleIncrement(int index) {
+    setState(() {
+      // 現在のアイテムを取得
+      final currentItem = itemlist[index];
+      int newValue;
+      if (currentItem.buttonClicks == 0) {
+        // ボタンクリックが初めての場合は、settingValに加算せずに初期値を設定する
+        newValue = currentItem.initialValue;
+      } else {
+        // それ以外の場合は、一回前のsettingValに加算する
+        newValue = currentItem.settingVal + currentItem.initialValue;
+      }
+      // 更新された値でアイテムをリストに再代入する
+      itemlist[index] = currentItem.copyWith(
+          settingVal: newValue, buttonClicks: currentItem.buttonClicks + 1);
+
+      // 結果の計算
+      result = calculateResult();
+    });
+  }
+
+  /// プラスカウンターボタンのコールバック
+  void onIncrementCallback(int index) {
+    handleIncrement(index);
+  }
+
+  /// マイナスカウンターボタンの処理
+  void HandleDecrement(int index) {
+    setState(() {
+      final currentItem = itemlist[index];
+      // buttonClicksが0より大きいことを確認
+      if (currentItem.buttonClicks > 0) {
+        int newButtonClicks = currentItem.buttonClicks - 1;
+        int newSettingVal = currentItem.settingVal - currentItem.initialValue;
+
+        // 設定する値が0以下にならないように、以下でさらにチェックする
+        newSettingVal = max(newSettingVal, 0); // settingValが0未満にならないように
+        newButtonClicks = max(newButtonClicks, 0); // buttonClicksが0未満にならないように
+
+        itemlist[index] = currentItem.copyWith(
+          settingVal: newSettingVal,
+          buttonClicks: newButtonClicks,
+        );
+      }
+      result = calculateResult();
+    });
+  }
+
+  /// マイナスカウンターボタンのコールバック
+  void onDecrementCallback(int index) {
+    HandleDecrement(index);
+  }
+
+  /// 空のコールバック
+  void emptyCallback() {}
+
   /// itemlistの合計値を計算
   int calculateResult() {
     int total = 0;
@@ -89,6 +146,8 @@ class _CounterListPageState extends State<CounterListPage> {
 
   @override
   Widget build(BuildContext context) {
+    result = calculateResult();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -187,71 +246,27 @@ class _CounterListPageState extends State<CounterListPage> {
                               },
                             ),
                     ),
-                    // カウンターボタン
+                    // Counter_Button
                     Row(
                       children: [
+                        // Increment
                         CmnIncrButton(
-                          onIncrement: itemlist[index].isSwitched &&
-                                  itemlist[index].settingVal > 0
-                              ? () {
-                                  setState(() {
-                                    final currentItem = itemlist[index];
-                                    int newValue;
-                                    if (currentItem.buttonClicks == 0) {
-                                      // ボタンクリックが初めての場合は、settingValに加算せずに初期値を設定する
-                                      newValue = currentItem.initialValue;
-                                    } else {
-                                      // それ以外の場合は、一回前のsettingValに加算する
-                                      newValue = currentItem.settingVal +
-                                          currentItem.initialValue;
-                                    }
-                                    // 更新された値でアイテムをリストに再代入する
-                                    itemlist[index] = currentItem.copyWith(
-                                        settingVal: newValue,
-                                        buttonClicks:
-                                            currentItem.buttonClicks + 1);
-
-                                    // 結果の計算
-                                    result = calculateResult();
-                                  });
-                                }
-                              : () {},
+                          onIncrement: (itemlist[index].isSwitched &&
+                                  itemlist[index].settingVal > 0)
+                              ? () => onIncrementCallback(index)
+                              : emptyCallback,
                         ),
                         Text(itemlist[index].buttonClicks.toString(),
                             style: TextStyle(
                                 fontSize: CmnSize.f24,
                                 fontWeight: FontWeight.bold,
                                 color: CmnColor.black)),
-                        //TODO valueが0の場合にボタンが押せなくなる制御をする
+                        // Decrement
                         CmnDecButton(
-                          onDecrement: itemlist[index].isSwitched &&
-                                  itemlist[index].settingVal > 0
-                              ? () {
-                                  setState(() {
-                                    final currentItem = itemlist[index];
-                                    // buttonClicksが0より大きいことを確認
-                                    if (currentItem.buttonClicks > 0) {
-                                      int newButtonClicks =
-                                          currentItem.buttonClicks - 1;
-                                      int newSettingVal =
-                                          currentItem.settingVal -
-                                              currentItem.initialValue;
-
-                                      // 設定する値が0以下にならないように、以下でさらにチェックする
-                                      newSettingVal = max(newSettingVal,
-                                          0); // settingValが0未満にならないように
-                                      newButtonClicks = max(newButtonClicks,
-                                          0); // buttonClicksが0未満にならないように
-
-                                      itemlist[index] = currentItem.copyWith(
-                                        settingVal: newSettingVal,
-                                        buttonClicks: newButtonClicks,
-                                      );
-                                    }
-                                    result = calculateResult();
-                                  });
-                                }
-                              : () {},
+                          onDecrement: (itemlist[index].isSwitched &&
+                                  itemlist[index].settingVal > 0)
+                              ? () => onDecrementCallback(index)
+                              : emptyCallback,
                         ),
                       ],
                     ),
