@@ -1,4 +1,4 @@
-import 'package:counter/views/pages/initialization_page.dart';
+import 'package:counter/views/pages/initialization/initialization_page.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
