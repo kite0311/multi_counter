@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:counter/constant/random_id_constants.dart';
+import 'package:counter/constants/random_id_constants.dart';
 
-class RandomIdGenerator {
+class GenerateId {
   static const String charset = RandomIdConstants.charset;
   final Random rnd;
 
-  RandomIdGenerator({Random? randomGenerator})
+  GenerateId({Random? randomGenerator})
       : rnd = randomGenerator ?? Random.secure();
   String generate({int length = 10}) {
     return List.generate(
